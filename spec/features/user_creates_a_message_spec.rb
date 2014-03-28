@@ -54,6 +54,46 @@ end
 			expect(page).to have_content "Email is invalid"
 		end
 	end
+
+	context 'data entered persists on page' do
+		it 'shows all data' do 
+
+			visit '/contacts/new'
+			fill_in "Email", with: "julissa.jansen@gmail.com"
+			fill_in "Subject", with: "subject"
+			fill_in "Description", with: "wow, what an e-mail!"
+			fill_in "First name", with: "Julissa"
+			fill_in "Last name", with: "Jansen-Morales"
+			click_on "Create Contact"
+			click_on "Back"
+
+			expect(page).to have_content "julissa.jansen@gmail.com"
+			expect(page).to have_content "subject"
+			expect(page).to have_content "wow, what an e-mail"
+			expect(page).to have_content "Julissa"
+			expect(page).to have_content "Jansen-Morales"
+		end
+	end
+
+		context 'when destroy is clicked, data is deleted' do
+		it 'shows all data' do 
+
+			visit '/contacts/new'
+			fill_in "Email", with: "julissa.jansen@gmail.com"
+			fill_in "Subject", with: "subject"
+			fill_in "Description", with: "wow, what an e-mail!"
+			fill_in "First name", with: "Julissa"
+			fill_in "Last name", with: "Jansen-Morales"
+			click_on "Create Contact"
+			click_on "Back"
+
+
+			expect { click_link 'Destroy' }.to change(Contact, :count).by(-1)
+		end
+	end
+
+
+
 		
 end
 
